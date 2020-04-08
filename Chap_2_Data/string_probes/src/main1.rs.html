@@ -1,0 +1,180 @@
+<pre>/////////////////////////////////////////////////////////////
+// string_probes::main.rs - basic string operations        //
+//                                                         //
+// Jim Fawcett, https://JimFawcett.github.io, 25 Feb 2020  //
+/////////////////////////////////////////////////////////////
+
+#[allow(unused_imports)]
+use display::{ 
+  log, slog, show, show_type, show_value, 
+  putline, putlinen, main_title, sub_title 
+};
+#[allow(unused_imports)]
+use std::fmt::{ Debug, Display };
+///////////////////////////////
+// for later
+// #[allow(unused_imports)]
+// use std::ffi::OsString;
+
+/*-----------------------------------------------------------
+   Note:
+   Strings hold utf8 characters, which vary in size, so you
+   you can't directly index String instances.
+*/
+#[allow(dead_code)]
+pub fn at(s:&amp;String, i:usize) -&gt; char {
+  s.chars().nth(i).unwrap()
+}
+/*-----------------------------------------------------------
+   note: 
+   - order n, as str chars are utf8, e.g., from 1 to 5 bytes
+   - this ugliness is one way to index
+   - see below for another, not much better way
+*/
+#[allow(dead_code)]
+pub fn vectorize(s: &amp;str) -&gt; Vec&lt;char&gt; {
+  s.chars().collect::&lt;Vec&lt;char&gt;&gt;()
+}
+/*-- note: order n, from vectorize --*/
+#[allow(dead_code)]
+pub fn get_char(s:&amp;str, i:usize) -&gt; char {
+    vectorize(s)[i]
+}
+/*-- stringize - order n --*/
+#[allow(dead_code)]
+pub fn stringize(v: &amp;Vec&lt;char&gt;) -&gt; String {
+  return v.into_iter().collect()
+}
+
+fn main() {
+
+    main_title("string_probes");
+    putline();
+
+    /*-- char --*/
+
+    let v:Vec&lt;char&gt; = vec!['R', 'u', 's', 't'];
+    log(&amp;v);
+    log(&amp;'R');
+    putline();
+
+    let ch:u8 = 'a' as u8;
+    log(&amp;ch);
+    show("char is ", &amp;(ch as char));
+    putline();
+
+    /*-- String --*/
+
+    let s:String = String::from("Rust");
+    log(&amp;s);
+    let i:usize = 2;
+    let ch = at(&amp;s, i);
+    print!("\n  in string \"{}\", char at {} is {}", &amp;s, i, ch);
+    show("length in bytes of s = {:?}", &amp;s.len());
+    putline();
+
+    let s1 = s.clone();
+    let v:Vec&lt;u8&gt; = Vec::from(s1);
+    slog(&amp;v[0]);
+    show("vec from string",&amp;v);
+    putline();
+    
+    /*-- str --*/
+
+    let s_slice = &amp;s[..];   // slice containing all chars of s
+    slog(&amp;s_slice);
+    show("s_slice = ", &amp;s_slice);
+    putline();
+
+    let s_slice2 = s.as_str();
+    slog(&amp;s_slice2);
+    putline();
+
+    /*-- create string and mutate --*/
+
+    let mut s = String::new();
+    s.push('a');
+    s.push(' ');
+    s.push_str("test string");
+    log(&amp;s);
+    putline();
+
+    let t = s.replace("string","Rust String");
+    slog(&amp;t);
+    putline();
+
+    for tok in s.split_whitespace() {
+      print!("\n  {}", tok);
+    }
+    putline();
+
+    //-----------------------
+    // this works too
+    // let iter = s.split_whitespace();
+    // for tok in iter {
+    //   print!("\n  {}", tok);
+    // }
+    // putline();
+
+    /*-----------------------------------------------------
+       Another, order n, way to index string:
+      - chars returns iterator over utf8 chars in string slice
+      - nth(i) calls next on iterator until it gets to i
+      - nth(i) returns std::option::Option&lt;char&gt;:
+         - that contains Some(ch) or None if operation failed
+    */
+    let result = s.chars().nth(0);
+    match result {
+      Some(r) =&gt; show("s.chars().nth(0) = ", &amp;r),
+      None =&gt; print!("\n  couldn't extract char"),
+    }
+    show("s = ", &amp;s);
+    let result = s.chars().nth(2);
+    match result {
+      Some(r) =&gt; show("s.chars().nth(2) = ", &amp;r),
+      None =&gt; print!("\n  couldn't extract char"),
+    }
+    show("s = ", &amp;s);
+    putline();
+
+    {
+        /*-------------------------------------------------
+           Caution here: 
+           - slice is returning array of bytes, not utf8 chars
+           - this works only because we use all ASCII chars
+        */
+        /*-- slices are non-owning views and are borrows of s --*/
+        let slice_all = &amp;s;
+        slog(&amp;slice_all);
+        show("slice_all = ", &amp;slice_all);
+        putline();
+
+        let third = &amp;s[2..3];       // string slice with one char
+        slog(&amp;third);
+        show("third = ",&amp;third);
+        putline();
+
+        /*-- this works for utf-8 encoding --*/
+        let ch = third.chars().nth(0);  // 
+        log(&amp;ch);
+        match ch {
+          Some(x) =&gt; { log(&amp;x); show("match ch = ", &amp;x); },
+          None =&gt; print!("\n can't return ch"),
+        }
+        
+        ///////////////////////////////////////////////////
+        // compile fails 
+        // - can't modify owner while borrows are active
+        //------------------------------------------------
+        // s.push('Z');
+        // slog(&amp;slice_all);
+
+    }   // elem borrow ends here
+
+    s.push('Z');  // ok, borrows no longer active
+   
+    putline();
+    sub_title("That's all Folks!");
+    putlinen(2);
+}
+</pre>
