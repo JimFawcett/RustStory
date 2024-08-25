@@ -1,0 +1,5 @@
+> cargo run
+   Compiling hello_world v0.1.0 (C:\github\JimFawcett\RustStory\Chap_1_Models\hello_world)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.36s    
+     Running `target\debug\hello_world.exe`
+Hello, world!

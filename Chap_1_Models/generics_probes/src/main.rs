@@ -1,3 +1,8 @@
+///////////////////////////////////////////////////
+// generics_probes::main.rs                      //
+// Demo generic functions and Structs            //
+///////////////////////////////////////////////////
+
 use std::fmt::{*};
 use display::{*};
 
@@ -17,16 +22,18 @@ fn demo_ref<T>(t:&T) where T:Debug  {
     show_value(t);
 }
 
+#[allow(dead_code)]
 #[derive(Debug)]
 struct Point<T> { x:T, y:T, z:T, }
 
 // this works because blittable, provided that T is blittable
+#[allow(dead_code)]
 #[derive(Debug, Copy, Clone)]
 struct BetterPoint<T> { x:T, y:T, z:T, }
 
 /* test */
 
-  fn main() {
+fn main() {
 
     main_title("generics_probes");
     let mut s = String::from("this is a test");

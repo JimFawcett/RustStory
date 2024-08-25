@@ -3,12 +3,5 @@
 version = 3
 
 [[package]]
-name = "display"
-version = "0.1.1"
-
-[[package]]
-name = "generics_probes"
+name = "user_def"
 version = "0.1.0"
-dependencies = [
- "display",
-]

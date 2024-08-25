@@ -8,29 +8,29 @@
    https://doc.rust-lang.org/beta/std/any/index.html
 
 */
-use std::fmt::Debug;
-use std::any::Any;
 use std::any::type_name;
+use std::any::Any;
+use std::fmt::Debug;
 use std::mem::size_of;
 
 /*-----------------------------------------------
    Accepts either String or str
    - no automatic newline
 */
-pub fn shows<S: Into<String>>(s:S) {
-    print!("{}",s.into());
+pub fn shows<S: Into<String>>(s: S) {
+    print!("{}", s.into());
 }
 /*-------------------------------------------------------------
    Display message and value
    - no automatic newline
 */
-pub fn show<T: Debug>(msg:&str, t:&T) {
+pub fn show<T: Debug>(msg: &str, t: &T) {
     print!("{}{:?}", msg, t);
 }
-pub fn str_show<T: Debug>(msg:&str, t:&T) -> String {
+pub fn str_show<T: Debug>(msg: &str, t: &T) -> String {
     format!("{}{:?}", msg, t)
 }
-/*------------------------------------------------------------- 
+/*-------------------------------------------------------------
    show value
    - expects T to implement Debug
 */
@@ -40,7 +40,7 @@ pub fn show_value<T: Debug>(value: &T) {
 pub fn str_show_value<T: Debug>(value: &T) -> String {
     format!("\n  value: {:?}", value)
 }
-/*------------------------------------------------------------- 
+/*-------------------------------------------------------------
    show type name
 */
 pub fn show_type<T>(_value: &T) {
@@ -51,25 +51,25 @@ pub fn str_show_type<T>(_value: &T) -> String {
     let name = std::any::type_name::<T>();
     format!("\n  TypeId: {}, size: {}", name, size_of::<T>())
 }
-  /*------------------------------------------------------------- 
+/*-------------------------------------------------------------
    show type name and value
    - expects T to implement Debug
-   - see #[define(Debug)] attributes, above 
+   - see #[define(Debug)] attributes, above
 */
 pub fn log<T: Debug>(value: &T) {
     let name = type_name::<T>();
     print!("\n  TypeId: {}, size: {}", name, size_of::<T>());
     print!("\n  value:  {:?}", value);
-  }
-  pub fn str_log<T: Debug>(value: &T) -> String {
+}
+pub fn str_log<T: Debug>(value: &T) -> String {
     let name = type_name::<T>();
     let mut st = format!("\n  TypeId: {}, size: {}", name, size_of::<T>());
     let st1 = format!("\n  value:  {:?}", value);
     st.push_str(&st1);
     st.clone()
-  }
-  
-/*------------------------------------------------------------- 
+}
+
+/*-------------------------------------------------------------
    log type name and value
    - expects T to implement Debug
 
@@ -98,7 +98,7 @@ pub fn slog<T: Any + Debug>(value: &T) {
 */
 pub fn main_title(msg: &str) {
     print!("\n  {}", msg);
-    let s = std::iter::repeat('=').take(msg.len() + 2).collect::<String>();
+    let s = "=".repeat(msg.len() + 2);
     print!("\n {}", s);
 }
 /*-------------------------------------------------------------
@@ -106,28 +106,30 @@ pub fn main_title(msg: &str) {
 */
 pub fn sub_title(msg: &str) {
     print!("\n  {}", msg);
-    let s = std::iter::repeat('-').take(msg.len() + 2).collect::<String>();
+    let s = "-".repeat(msg.len() + 2);
     print!("\n {}", s);
 }
-/*------------------------------------------------------------- 
+/*-------------------------------------------------------------
    show line with len hyphens
 */
-pub fn separator(len:u8) {
+pub fn separator(len: u8) {
     let mut s = String::new();
-    for _i in 1..len+2 { s.push('-');}
-    print!("\n {}",s);
+    for _i in 1..len + 2 {
+        s.push('-');
+    }
+    print!("\n {}", s);
 }
 /*-------------------------------------------------------------
    push a single newline to console
 */
 pub fn putline() {
-    print!("\n");
+    println!();
 }
 /*-------------------------------------------------------------
    pust n newlines to console
 */
 pub fn putlinen(n: usize) {
-    let s = std::iter::repeat('\n').take(n).collect::<String>();
+    let s = "\n".repeat(n);
     print!("{}", s);
 }
 
@@ -142,6 +144,7 @@ mod tests {
     use super::*;
 
     #[derive(Debug)]
+    #[allow(dead_code)]
     struct Point {
         x: f64,
         y: f64,
@@ -167,16 +170,23 @@ mod tests {
     fn test_log() {
         let an_i8: i8 = 100;
         assert_eq!(str_log(&an_i8).contains("100"), true);
-        let mut vi : Vec<i32> = Vec::new();
+        let mut vi: Vec<i32> = Vec::new();
         vi.push(-1);
         vi.push(0);
         vi.push(1);
         assert_eq!(str_log(&vi).contains("1]"), true);
         #[derive(Debug)]
-        enum Test { Test1, Test2, };
+        enum Test {
+            Test1,
+            Test2,
+        }
         log(&Test::Test1);
         log(&Test::Test2);
-        let point = Point { x:1.0, y:1.5, z:2.0 };
+        let point = Point {
+            x: 1.0,
+            y: 1.5,
+            z: 2.0,
+        };
         log(&point);
         assert_eq!(str_log(&point).contains("2.0 }"), true);
         sub_title("that's all folks!");

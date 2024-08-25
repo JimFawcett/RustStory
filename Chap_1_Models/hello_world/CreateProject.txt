@@ -1,0 +1,21 @@
+C:\github\JimFawcett\RustStory\Chap_1_Models
+> cargo new hello_world
+    Creating binary (application) `hello_world` package
+note: see more `Cargo.toml` keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+C:\github\JimFawcett\RustStory\Chap_1_Models
+> cd hello_world
+C:\github\JimFawcett\RustStory\Chap_1_Models\hello_world
+> dir
+
+
+    Directory: C:\github\JimFawcett\RustStory\Chap_1_Models\hello_world
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----         8/22/2024  12:13 PM                src
+-a----         8/22/2024  12:13 PM             82 Cargo.toml
+
+
+C:\github\JimFawcett\RustStory\Chap_1_Models\hello_world
+> 

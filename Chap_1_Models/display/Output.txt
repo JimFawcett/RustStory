@@ -1,0 +1,31 @@
+  demo display
+ ==============
+  --  shows  --
+ ---------------
+
+  --  show_type and show_value  --
+ ----------------------------------
+  TypeId: alloc::string::String, size: 24
+  value: "a string"
+
+  --  log  --
+ -------------
+  TypeId: i8, size: 1
+  value:  100
+  TypeId: alloc::vec::Vec<i32>, size: 24
+  value:  [-1, 0, 1]
+  TypeId: demo_display::test_displays::Test, size: 1
+  value:  Test1
+  TypeId: demo_display::test_displays::Test, size: 1
+  value:  Test2
+  TypeId: demo_display::Point, size: 24
+  value:  Point { x: 1.0, y: 1.5, z: 2.0 }
+  Point { x: 1.0, y: 1.5, z: 2.0 }
+
+  --  show --
+ -------------
+  this is a Point structure
+  Point { x: 1.0, y: 1.5, z: 2.0 }
+
+  that's all folks!
+ -------------------
