@@ -23,7 +23,7 @@ fn demo_ref<T>(t:&T) where T:Debug  {
 }
 
 #[allow(dead_code)]
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 struct Point<T> { x:T, y:T, z:T, }
 
 // this works because blittable, provided that T is blittable
@@ -70,6 +70,7 @@ fn main() {
     bpt.x = 3.2;
     putline();
 
+    /* literal strings are type &str and are copy-able */
     sub_title("demo_ref and demo with copy-able struct");
     let mut bpt = BetterPoint { x:"one", y:"two", z:"three" };
     demo_ref(&bpt);
