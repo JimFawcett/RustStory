@@ -4,7 +4,7 @@
 // Jim Fawcett, https://JimFawcett.github.io, 15 Feb 2020  //
 /////////////////////////////////////////////////////////////
 /*
-   Simple demonstrations of Rust data types:
+   Demonstrations of Rust data types:
    - ints: i32, i64, usize
    - floats: f32, f64
    - char
@@ -18,19 +18,18 @@
    - Vec<T>: Vec<i32>::new();
    - HashMap<Key, Value>:cl HashMap<String, int>::new();
 */
-#[allow(unused_imports)]
+#![allow(clippy::vec_init_then_push)]
+#![allow(unused_imports)]
 use display::{
     putline, main_title, show_type, show_value, log, slog, putlinen
 };
 use std::fmt::{Debug, Display};
-use std::any::Any;
 
-#[allow(dead_code)]
-fn put<T: Any + Debug + Display>(value: &T) {
+fn put<T:Display>(value: &T) {
     print!("{}", value);
 }
 
-fn putln<T: Any + Debug + Display>(value: &T) {
+fn putln<T: Display>(value: &T) {
     let mut str_temp = String::new();
     str_temp.push_str("\n  ");
     str_temp.push_str(&value.to_string());
@@ -175,6 +174,7 @@ fn main() {
     /* Rust structs: struct Point { x:f64, y:f64, z:f64, t:} */
     
     separator();
+    #[allow(dead_code)]
     #[derive(Debug)]
     struct Point { x:f64, y:f64, z:f64, name:String, }
     let demo = Point { x:1.5, y:2.5, z:3.7, name:String::from("Peter") };
@@ -187,7 +187,8 @@ fn main() {
     separator();
     #[derive(Debug)]
     #[allow(dead_code)]
-    enum POS { BS(String), MS(String), PhD(String), };
+    #[allow(clippy::upper_case_acronyms)]
+    enum POS { BS(String), MS(String), PhD(String), }
     let demo = POS::MS(String::from("Computer Engineering"));
     putln(&"enum POS { BS(String), MS(String), PhD(String), };");
     putln(&"let demo = POS::MS(String::from(\"Computer Engineering\"));");
@@ -196,6 +197,11 @@ fn main() {
     /* Rust Vectors: Vec<i32> */
     
     separator();
+    /*
+      Idiomatic Rust code would use:
+        let mut demo = vec![(1, 2.5, 'z'), (2, 3.5, 'A')];
+        This code intends to illustrate the alternative.
+     */
     let mut demo  :Vec<(i32, f64, char)> = Vec::new();
     demo.push((1, 2.5, 'z'));
     demo.push((2, 3.5, 'A'));

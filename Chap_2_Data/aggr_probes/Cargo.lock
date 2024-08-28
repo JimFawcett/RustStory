@@ -3,12 +3,5 @@
 version = 3
 
 [[package]]
-name = "data_types"
+name = "aggr_probes"
 version = "0.1.0"
-dependencies = [
- "display",
-]
-
-[[package]]
-name = "display"
-version = "0.1.1"
