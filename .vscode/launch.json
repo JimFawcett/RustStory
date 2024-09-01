@@ -1,0 +1,38 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    
+    {
+      "type": "lldb",
+      "request": "attach",
+      "name": "Attach enum_probes",
+      "program": "${workspaceFolder}/Chap_3_Operations/enum_probes/target/debug/enum_probes.exe",
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug enum_probes",
+      "program": "${workspaceFolder}/Chap_3_Operations/enum_probes/target/debug/enum_probes.exe",
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    
+    {
+      "type": "lldb",
+      "request": "attach",
+      "name": "Attach function_probes",
+      "program": "${workspaceFolder}/Chap_3_Operations/function_probes/target/debug/function_probes.exe",
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug function_probes",
+      "program": "${workspaceFolder}/Chap_3_Operations/function_probes/target/debug/function_probes.exe",
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}

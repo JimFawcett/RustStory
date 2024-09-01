@@ -93,13 +93,20 @@ pub fn slog<T: Any + Debug>(value: &T) {
         }
     }
 }
+/*---------------------------------------------------------
+  Display operation surrounded by '---'
+*/
+pub fn show_op<S: Into<String>>(s: S) {
+  let tmp: String = "--- ".to_string() + &s.into() + " ---";
+  println!("{tmp}");
+}
 /*-------------------------------------------------------------
    Display underlined main title on console
 */
 pub fn main_title(msg: &str) {
     print!("\n  {}", msg);
     let s = "=".repeat(msg.len() + 2);
-    print!("\n {}", s);
+    print!("\n {}\n", s);
 }
 /*-------------------------------------------------------------
    Display underlined sub title on console
@@ -107,7 +114,7 @@ pub fn main_title(msg: &str) {
 pub fn sub_title(msg: &str) {
     print!("\n  {}", msg);
     let s = "-".repeat(msg.len() + 2);
-    print!("\n {}", s);
+    print!("\n {}\n", s);
 }
 /*-------------------------------------------------------------
    show line with len hyphens
