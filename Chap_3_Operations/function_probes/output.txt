@@ -1,0 +1,60 @@
+--------------------
+ demo param passing
+--------------------
+ pass copy type by value, caller doesn't see any changes
+---------------------------------------------------------
+--- in pass_by_value ---
+  TypeId: f64, size: 8
+  value: 3.1415927
+--- t = T::default() ---
+  value: 0.0
+--- leaving function ---
+  value of d is now 3.1415927
+  no side-effects, passing copy type by value
+
+ pass copy type by ref, caller sees any changes
+------------------------------------------------
+--- in pass_by_ref ---
+  TypeId: &mut &str, size: 8
+  value: "a string"
+--- *rt = T::default() ---
+  value: ""
+--- leaving function ---
+  value of s is now ""
+  side-effects, passing copy type by ref
+
+ pass move type by value, caller sees invalidation
+---------------------------------------------------
+--- in pass_by_value ---
+  TypeId: alloc::string::String, size: 24
+  value: "a string"
+--- t = T::default() ---
+  value: ""
+--- leaving function ---
+  can't access s, been moved
+  side-effects, passing move type by value
+
+ pass move type by ref, caller sees change of value
+----------------------------------------------------
+--- in pass_by_ref ---
+  TypeId: &mut alloc::vec::Vec<i32>, size: 8
+  value: [1, 2, 3]
+--- *rt = T::default() ---
+  value: []
+--- leaving function ---
+  v now has value: []
+  side-effects, pass move type by ref and change value
+
+ pass move type by ref, caller sees change of instance
+-------------------------------------------------------
+--- in pass_move_by_ref_heap_instance<T> ---
+  TypeId: &mut alloc::boxed::Box<alloc::string::String>, size: 8      
+  value: "a string"
+  address of rh is: 0x17d369aed80
+--- *rh = Box::new(t) ---
+  address of rh is: 0x17d369aee20
+  value: "a new string"
+--- leaving function ---
+  smrt_ptr_heap now has value: "a new string"
+  side-effects, pass move type by ref and change instance
+
