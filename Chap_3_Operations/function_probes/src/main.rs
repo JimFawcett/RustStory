@@ -10,6 +10,8 @@ use display_functions::{
   show_type, show_value, show, shows, 
   show_title, putln
 };
+mod summary_syntax;
+use summary_syntax::*;
 
 /////////////////////////////////////////////////
 // Demo functions
@@ -158,6 +160,9 @@ fn main() {
   show_title("demo param passing");
   demo_pass_by();
 
+  show_title("demo syntax");
+  demo_syntax();
+  
   // /*-------------------------------------------*/
   // separator(48);
   // sub_title("show_str1(s:String)");  // a move
