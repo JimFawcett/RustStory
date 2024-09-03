@@ -48,24 +48,21 @@ pub fn demo_syntax() {
   r.push(42);
   println!("{r:?}");
   let mut cntr = Counter::new();
-  let mut l = |dir:Direction| {
+  let prefix = "Vec";
+  let mut l = |r:&mut Vec<i32>, dir:Direction| {
     match dir {
       Direction::Up => { cntr.incr(); r.push(cntr.count()); },
       Direction::Down => { cntr.decr(); r.push(cntr.count()); },
       Direction::Stay => { r.push(cntr.count()); },
     }
-    // if let Direction::Up = dir {
-    //   cntr.incr();
-    // }
-    // else {
-    //   cntr.decr();
-    // }
-    // r.push(cntr.count()); 
-    println!("{:?}", r);
-  };
-  l(Direction::Up); 
-  l(Direction::Up);
-  l(Direction::Down);
-  l(Direction::Stay);
-  l(Direction::Up);
+    println!("{}{:?}", prefix, r);  // prefix is captured data
+  };  // mutable borrow of r ends here
+  let v = &mut r;
+  l(v, Direction::Stay); 
+  l(v, Direction::Up);
+  l(v, Direction::Up);
+  l(v, Direction::Down);
+  l(v, Direction::Stay);
+  println!("{prefix}{v:?}");
+  l(v, Direction::Down);
 }
